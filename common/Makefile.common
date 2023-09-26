@@ -6,7 +6,7 @@
 TBB_LIBS      ?= /home/trigonak/code/tbb42_20140122oss/build/linux_intel64_gcc_cc4.8_libc2.17_kernel3.11.0_release
 TBB_INCLUDES  ?= /home/trigonak/code/tbb42_20140122oss/include
 
-URCU_PATH     ?= /home/trigonak/code/urcu #path to the URCU installation 
+URCU_PATH     ?= /home/trigonak/code/urcu #path to the URCU installation
 
 # Compiler
 SOLARIS_CC1 	?= /opt/csw/bin/gcc
@@ -83,13 +83,13 @@ endif
 # Platform dependent settings
 #############################
 #
-# GCC thread-local storage requires "significant 
+# GCC thread-local storage requires "significant
 # support from the linker (ld), dynamic linker
 # (ld.so), and system libraries (libc.so and libpthread.so), so it is
 # not available everywhere." source: GCC-doc.
 #
-# pthread_spinlock is replaced by pthread_mutex 
-# on MacOS X, as it might not be supported. 
+# pthread_spinlock is replaced by pthread_mutex
+# on MacOS X, as it might not be supported.
 # Comment LOCK = MUTEX below to enable.
 
 ifndef OS_NAME
@@ -138,7 +138,7 @@ endif
 ifeq ($(PC_NAME), lpd48core)
     PLATFORM_KNOWN = 1
     CC = gcc-4.8
-    CFLAGS += -DOPTERON -DPLATFORM_MCORE 
+    CFLAGS += -DOPTERON -DPLATFORM_MCORE
     PLATFORM_NUMA = 1
 endif
 ifeq ($(PC_NAME), lpdxeon2680)
@@ -155,7 +155,7 @@ endif
 
 ifeq ($(PC_NAME), lpdpc34)
     PLATFORM_KNOWN = 1
-    CFLAGS += -DHASWELL 
+    CFLAGS += -DHASWELL
     PLATFORM_NUMA = 0
 endif
 
@@ -211,39 +211,25 @@ ifeq ($(ARCH_NAME), i386)
     ARCH = x86
     CFLAGS += -m32
     LDFLAGS += -m32
-    SSPFD = -lsspfd_x86
-    LDFLAGS += -L$(LIBSSMEM)/lib -lssmem_x86$(SSMEM_SUFFIX)
 endif
 
 ifeq ($(ARCH_NAME), i686)
     ARCH = x86
     CFLAGS += -m32
     LDFLAGS += -m32
-    SSPFD = -lsspfd_x86
-    LDFLAGS += -L$(LIBSSMEM)/lib -lssmem_x86$(SSMEM_SUFFIX)
 endif
 
 ifeq ($(ARCH_NAME), x86_64)
     ARCH = x86_64
     CFLAGS += -m64
     LDFLAGS += -m64
-    SSPFD = -lsspfd_x86_64
-    LDFLAGS += -L$(LIBSSMEM)/lib -lssmem_x86_64$(SSMEM_SUFFIX)
 endif
 
 ifeq ($(ARCH_NAME), sun4v)
     ARCH = sparc64
     CFLAGS += -DSPARC=1 -DINLINED=1 -m64
     LDFLAGS += -lrt -m64
-    SSPFD = -lsspfd_sparc64
-    LDFLAGS += -L$(LIBSSMEM)/lib -lssmem_sparc64$(SSMEM_SUFFIX)
 endif
-
-ifeq ($(ARCH_NAME), tile)
-    LDFLAGS += -L$(LIBSSMEM)/lib -lssmem_tile$(SSMEM_SUFFIX)
-    SSPFD = -lsspfd_tile
-endif
-
 
 ifeq ($(PLATFORM_NUMA), 1)
     LDFLAGS += -lnuma
@@ -254,9 +240,12 @@ endif
 # Global settings
 #################
 
+SSPFD = -lsspfd
+LDFLAGS += -lssmem -lsspfd
+
 CFLAGS += -Wall
 CFLAGS += -fno-strict-aliasing
-CFLAGS += -I$(LIBAO_INC) -I$(ROOT)/include -I$(LIBSSMEM)/include
+CFLAGS += -I$(LIBAO_INC) -I$(ROOT)/include
 
 LDFLAGS += -lpthread -lrt -lm
 
@@ -283,7 +272,7 @@ else
 			CFLAGS += -DGC=0
 		else ifeq ($(GC),2)
 			CFLAGS += -DGC=2
-		else	
+		else
 			CFLAGS += -DGC=1
 		endif
 	endif
@@ -379,4 +368,3 @@ ifeq ($(WORKLOAD),2)
     $(info *** are cached in a per-thread file for subsequent runs.    ***)
     $(info ***************************************************************)
 endif
-
