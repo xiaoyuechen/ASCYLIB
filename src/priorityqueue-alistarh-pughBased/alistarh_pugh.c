@@ -1,4 +1,4 @@
-/*   
+/*
  *   File: alistarh_pugh.c
  *   Author: Vasileios Trigonakis <vasileios.trigonakis@epfl.ch>
  *  	     Egeyar Bagcioglu <egeyar.bagcioglu@epfl.ch>
@@ -46,12 +46,12 @@ extern ALIGNED(CACHE_LINE_SIZE) unsigned int levelmax;
 #define ALISTARH_MAX_JUMP_CONSTANT		1	//J
 #define ALISTARH_LEVELS_TO_DESCEND		1	//D
 
-unsigned int num_threads; //p
-unsigned int starting_height; //H
-unsigned int max_jump_length; //L
-unsigned int cleaner_percentage;
+static unsigned int num_threads; //p
+static unsigned int starting_height; //H
+static unsigned int max_jump_length; //L
+static unsigned int cleaner_percentage;
 
-sl_node_t* last_dummy_entry;
+static sl_node_t* last_dummy_entry;
 //KEY_MIN+1 as the value is reserved for dummy entries,
 //while KEY_MIN as the key respresents the head of the skiplist!
 
@@ -63,7 +63,7 @@ alistarh_init(int _num_threads, sl_intset_t* set, int padding)
   max_jump_length = floor_log_2(num_threads)+1;
   cleaner_percentage = (99+(num_threads/2))/num_threads;
   cleaner_percentage = cleaner_percentage>1?cleaner_percentage:1;
-  
+
   if (padding)
   {
     int i=1, num_dummies = num_threads*floor_log_2(num_threads)/2;
@@ -85,7 +85,7 @@ alistarh_init(int _num_threads, sl_intset_t* set, int padding)
 
 sval_t
 optimistic_find(sl_intset_t *set, skey_t key)
-{ 
+{
   PARSE_TRY();
   PARSE_START_TS(0);
   sval_t val = 0;
@@ -98,7 +98,7 @@ optimistic_find(sl_intset_t *set, skey_t key)
       while (succ->key < key)
 	{
 	  pred = succ;
-	  succ = succ->next[lvl]; 
+	  succ = succ->next[lvl];
 	}
 
       if (succ->key == key)	/* at any search level */
@@ -176,7 +176,7 @@ optimistic_insert(sl_intset_t *set, skey_t key, sval_t val)
   LOCK(ND_GET_LOCK(n));
 
   n->next[0] = pred->next[0];	/* we already hold the lock for lvl 0 */
-#ifdef __tile__ 
+#ifdef __tile__
       MEM_BARRIER;
 #endif
   pred->next[0] = n;
@@ -191,7 +191,7 @@ optimistic_insert(sl_intset_t *set, skey_t key, sval_t val)
 #endif
       pred->next[lvl] = n;
       UNLOCK(ND_GET_LOCK(pred));
-    }  
+    }
   UNLOCK(ND_GET_LOCK(n));
   GL_UNLOCK(set->lock);
 
@@ -252,7 +252,7 @@ optimistic_delete(sl_intset_t *set, skey_t key)
       pred->next[lvl] = succ->next[lvl];
       succ->next[lvl] = pred;	/* pointer reversal! :-) */
       UNLOCK(ND_GET_LOCK(pred));
-    }  
+    }
 
   UNLOCK(ND_GET_LOCK(succ));
   GL_UNLOCK(set->lock);
@@ -272,7 +272,7 @@ alistarh_deleteMin(sl_intset_t *set)
   sl_node_t *update[HERLIHY_MAX_MAX_LEVEL];
   sl_node_t *succ, *pred;
   int i, level, continue_flag;
-  
+
  retry:
   if (unlikely(rand_range(100) <= cleaner_percentage))
   { //become cleaner
@@ -342,8 +342,8 @@ alistarh_deleteMin(sl_intset_t *set)
         pred->next[level] = succ->next[level];
         succ->next[level] = pred;	// pointer reversal! :-)
         UNLOCK(ND_GET_LOCK(pred));
-      }  
- 
+      }
+
       result = node->val;
 
       UNLOCK(ND_GET_LOCK(succ));
@@ -359,7 +359,7 @@ alistarh_deleteMin(sl_intset_t *set)
   else //spray & mark as deleted
   {
     UPDATE_TRY();
-  
+
     PARSE_START_TS(3);
     result = 0;
     node = set->head;
@@ -375,10 +375,10 @@ alistarh_deleteMin(sl_intset_t *set)
         node = next;
       }
     }
-  
+
     if (unlikely(node == set->head))
       goto retry;
-    
+
     if (unlikely(node->val == KEY_MIN+1))
       goto retry;
 
@@ -434,7 +434,7 @@ alistarh_deleteMin(sl_intset_t *set)
       succ->next[level] = pred;	// pointer reversal! :-)
       UNLOCK(ND_GET_LOCK(pred));
     }
-    
+
     result = node->val;
 
     UNLOCK(ND_GET_LOCK(succ));
@@ -452,7 +452,7 @@ alistarh_spray(sl_intset_t *set)
 {
   sl_node_t *next, *node;
   int i, level;
-  
+
  retry:
   UPDATE_TRY();
   PARSE_START_TS(3);
