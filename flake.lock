@@ -1,0 +1,158 @@
+{
+  "nodes": {
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1694529238,
+        "narHash": "sha256-zsNZZGTGnMOf9YpHKJqMSsa0dXbfmxeoJ7xHlrt+xmY=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "ff7b65b44d01cf9ba6a71320833626af21126384",
+        "type": "github"
+      },
+      "original": {
+        "id": "flake-utils",
+        "type": "indirect"
+      }
+    },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1694529238,
+        "narHash": "sha256-zsNZZGTGnMOf9YpHKJqMSsa0dXbfmxeoJ7xHlrt+xmY=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "ff7b65b44d01cf9ba6a71320833626af21126384",
+        "type": "github"
+      },
+      "original": {
+        "id": "flake-utils",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1695132891,
+        "narHash": "sha256-cJR9AFHmt816cW/C9necLJyOg/gsnkvEeFAfxgeM1hc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8b5ab8341e33322e5b66fb46ce23d724050f6606",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1694948089,
+        "narHash": "sha256-d2B282GmQ9o8klc22/Rbbbj6r99EnELQpOQjWMyv0rU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5148520bfab61f99fd25fb9ff7bfbb50dad3c9db",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "raplread": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1423589057,
+        "narHash": "sha256-pq/e0lCAGOX86p3lkcGr5lg0fRLg/MI166eL7QgTVdA=",
+        "owner": "LPD-EPFL",
+        "repo": "raplread",
+        "rev": "0cf2378a1a78762cf98e9ebe2c4666b9276819ac",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LPD-EPFL",
+        "repo": "raplread",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": "nixpkgs",
+        "raplread": "raplread",
+        "ssmem": "ssmem",
+        "sspfd": "sspfd"
+      }
+    },
+    "ssmem": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1695296162,
+        "narHash": "sha256-II7HmPdKZ8+A57DIA1o1btAnd6LdnldIayUmrwhm4+Q=",
+        "owner": "xiaoyuechen",
+        "repo": "ssmem",
+        "rev": "f98fa17b8b510ef65e1258d86ce048de9ddd073c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xiaoyuechen",
+        "repo": "ssmem",
+        "type": "github"
+      }
+    },
+    "sspfd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1433363630,
+        "narHash": "sha256-p18eqEhj8efEs0zFujAawoo7VfMEG+EZiuk2URr7V7U=",
+        "owner": "trigonak",
+        "repo": "sspfd",
+        "rev": "b65ff418379b110ec3fd2e027fb0a522b13ca0f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "trigonak",
+        "repo": "sspfd",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
